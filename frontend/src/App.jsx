@@ -1,37 +1,59 @@
 import React from "react";
-import { BrowserRouter } from 'react-router-dom';
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import Login from './pages/Login';
-import SignUp from './pages/Signup';
-import Admin from "./pages/AdminDashboard";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import SignUp from "./pages/Signup";
+import UserDashboard from "./pages/UserDashboard";
+import BookTicket from "./pages/BookTicket";
+import TicketHistory from "./pages/TicketHistory";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
-import UserDashBoard from "./pages/UserDashboard";
 
 export const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route 
-          path="/user" 
-          element={
-            <ProtectedRoute allowedRoles={["user"]}>
-              <UserDashBoard />
-            </ProtectedRoute>
-          }
-        />
-        <Route 
-          path="/admin" 
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <Admin />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+
+        <Route
+          path="/user"
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <UserDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/book"
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <BookTicket />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/history"
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <TicketHistory />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+{/* for any type of error */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
-}
+};

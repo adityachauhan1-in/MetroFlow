@@ -1,74 +1,58 @@
-import React  from "react";
-import { Card } from "../components/ui/Card";
-import { CardContent } from "../components/ui/CardContent";
-import Button from "../components/ui/Button";
-import { LogOut, User, QrCode, BarChart3 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-export default function UserDashBoard() {
-   
-   const navigate = useNavigate();
-   return ( 
-   <> 
-      <div className="min-h-screen bg-gray-100 p-6">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-      <h1 className="text-2xl font-semibold">Welcome to Metrio</h1>
-      <Button variant="outline" className="flex gap-2"  >
-    
-      <LogOut size={18} /> Logout
-      </Button>
+import { Card ,CardContent} from "../components/ui/Card";
+import Button from "../components/ui/Button";
+import DashboardLayout from "../components/layout/DashboardLayout";
+import { User, Ticket, History } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+
+export default function UserDashboard() {
+  const navigate = useNavigate();
+ const {user} = useAuth();
+  return (
+    <DashboardLayout title="Metrio">
+      <div className="space-y-6">
+        <Card className="rounded-2xl shadow-sm">
+          <CardContent className="flex items-center gap-4 p-6">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100">
+              <User className="h-6 w-6 text-slate-600" />
+            </div>
+            <div>
+              <p className="text-lg font-medium text-slate-900">Hello , User</p>
+              <p className="text-sm text-slate-500">Book tickets and view your history</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="grid gap-6 sm:grid-cols-2">
+          <Card>
+            <CardContent className="p-6">
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
+                <Ticket className="h-5 w-5 text-blue-600" />
+              </div>
+              <h2 className="mb-2 text-lg font-semibold">Book Ticket</h2>
+              <p className="mb-4 text-sm text-slate-500">
+                Book a new ticket for your journey. Choose stations and journey type.
+              </p>
+              <Button onClick={() => navigate("/user/book")}>Book Now</Button>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100">
+                <History className="h-5 w-5 text-slate-600" />
+              </div>
+              <h2 className="mb-2 text-lg font-semibold">My Tickets</h2>
+              <p className="mb-4 text-sm text-slate-500">
+                View your ticket booking history and active tickets.
+              </p>
+              <Button variant="outline" onClick={() => navigate("/user/history")}>
+                View History
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       </div>
-      
-      </div>
-
-      {/* User Info  */}
-      <Card className="mb-6 rounded-2xl shadow-sm">
-<CardContent className="p-6 flex items-center gap-4">
-<User className="w-10 h-10" />
-<div>
-<p className="text-lg font-medium">Hello, User 👋</p>
-<p className="text-sm text-gray-500">Role: User</p>
-</div>
-</CardContent>
-</Card>
-    {/* Main Action    */}
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-<Card className="rounded-2xl shadow-sm hover:shadow-md transition">
-<CardContent className="p-6">
-<QrCode className="w-8 h-8 mb-3" />
-<h2 className="text-lg font-semibold mb-2">Scan QR</h2>
-<p className="text-sm text-gray-500 mb-4">
-Scan QR codes to track entries in real time.
-</p>
-<Button className="w-full">Start Scanning</Button>
-</CardContent>
-</Card>
-</div>
-<div>
-<Card className="rounded-2xl shadow-sm hover:shadow-md transition">
-<CardContent className="p-6">
-<BarChart3 className="w-8 h-8 mb-3" />
-<h2 className="text-lg font-semibold mb-2">My Stats</h2>
-<p className="text-sm text-gray-500 mb-4">
-View your activity and usage analytics.
-</p>
-<Button className="w-full" variant="outline">View Stats</Button>
-</CardContent>
-</Card>
-
-
-<Card className="rounded-2xl shadow-sm hover:shadow-md transition">
-<CardContent className="p-6">
-<User className="w-8 h-8 mb-3" />
-<h2 className="text-lg font-semibold mb-2">Profile</h2>
-<p className="text-sm text-gray-500 mb-4">
-Manage your account details and settings.
-</p>
-<Button className="w-full" variant="secondary">Edit Profile</Button>
-</CardContent>
-</Card>
-</div>
-
-      </>
-   )
+    </DashboardLayout>
+  );
 }

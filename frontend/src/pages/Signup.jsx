@@ -97,22 +97,6 @@ export default function SignUp() {
                     </button>
                 </form>
 
-                {/* {isAuthenticated && (
-                    <div className="mt-4 p-3 bg-blue-900/20 border border-blue-500/30 rounded-lg text-center">
-                        <p className="text-sm text-blue-300 mb-2">
-                            You're already logged in as {user?.role === "admin" ? "Admin" : "User"}
-                        </p>
-                        <button
-                            onClick={() => {
-                                logout();
-                                navigate("/signup", { replace: true });
-                            }}
-                            className="text-sm text-blue-400 hover:text-blue-300 underline"
-                        >
-                            Log out to create a new account
-                        </button>
-                    </div>
-                )} */}
 
                 <p className="auth-footer">
                     Already have an account?{" "}

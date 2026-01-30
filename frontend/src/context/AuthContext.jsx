@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import api from "../api/axios";
 
 const AuthContext = createContext(null);
-// Provider 
+// Provider  
 export const AuthProvider = ({children}) => {
     const [user , setUser ] = useState(null);
     const [token , setToken ] = useState(null);
@@ -113,6 +113,7 @@ export const AuthProvider = ({children}) => {
     const value = {
         user,
         token,
+        loading,
         isAuthenticated: !!token && isTokenValid(token),
         login,
         logout,
