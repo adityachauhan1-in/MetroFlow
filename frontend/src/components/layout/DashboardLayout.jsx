@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Button from "../ui/Button";
 import { LogOut, User, ArrowLeft } from "lucide-react";
+import React from "react";
 
 export default function DashboardLayout({ children, title, backHref, backLabel = "Dashboard" }) {
   const navigate = useNavigate();

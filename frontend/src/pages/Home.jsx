@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import React from "react";
 
 /**
  * "/" redirects to /login, /user, or /admin based on auth and role.

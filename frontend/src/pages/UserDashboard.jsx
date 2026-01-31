@@ -4,6 +4,7 @@ import Button from "../components/ui/Button";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import { User, Ticket, History } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import React from "react";
 
 export default function UserDashboard() {
   const navigate = useNavigate();
