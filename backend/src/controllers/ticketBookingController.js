@@ -1,7 +1,7 @@
 import express from 'express'
 import TicketModel from '../models/TicketModel.js'
 import StationModel from '../models/StationModel.js'
-
+import { multiFare } from '../utils/fareCalculator.js';
 export const ticketBooking = async(req,res) => {
   try {
       //  ===1 >> extract from , to and journeyType from the req.body 
@@ -26,8 +26,7 @@ export const ticketBooking = async(req,res) => {
             return res.status(400).json({message : "You have already an active ticket "})
         }
       }
-      // set Expiry time of the ticket
-      const expiresAt  = new Date(Date.now() + 90 * 60 * 1000);
+    
     // Validate Input 
     if(!from || !to){
       return res.status(400).json({message : "From and To stations are required "});
@@ -45,39 +44,67 @@ export const ticketBooking = async(req,res) => {
       if(!fromStation || !toStation){
         return res.status(400).json({message : "Invalid Station Selected"})
       }
+ 
+      // Use Resusable funtion (calculateFare)
+       const fareDetails =  await multiFare(fromStation,toStation,journeyType)
+  // set Expiry time of the ticket
+  const expiresAt  = new Date(Date.now() + 90 * 60 * 1000);
 
-      // Calculate Distance 
-      const distance  = Math.abs(toStation.distance - fromStation.distance);
-
-      // fare Calculation 
-      const basefare = 90 ; 
-      const fareperKm = 20 ; 
- let fare = basefare + distance * fareperKm;
-
- if(journeyType === "return"){
-  fare = fare  * 2 ; 
- }
-
-//  // qrCode Data - will be set after ticket creation with ticket ID
- // save ticket 
-
- const ticket = await TicketModel.create({
-  user : userId , 
-  from , to , journeyType ,distance,
-  fare , expiresAt,
-  qrCode: `TICKET_ID:TEMP_${Date.now()}` // temporary value, will be updated below
- })
- // why we updated below ? 
- // because we need a valid id for passing into the scanner and for ticket we use temporary value so in this way the variable
- // ticket contains whole details of ticket 
-// generate qr using ticket id 
- ticket.qrCode = `TICKET_ID:${ticket._id}`
-
- await ticket.save();
- // saved successfully  
- return res.status(201).json({message : "Ticket booked successfully " , ticket});
-  } catch (error) {
-    
-    return res.status(500).json({error : error.message , message : "what the nonsense is this"});
+// Save ticket with temporary QR code
+const ticket = await TicketModel.create({
+  user: userId,
+  from: fromStation.name,
+  to: toStation.name,
+  journeyType,
+  distance: fareDetails.distance,
+  fare: fareDetails.total,
+  expiresAt,
+  qrCode: `TICKET_ID:TEMP_${Date.now()}`,
+  fareDetails: {
+    baseFare: fareDetails.baseFare,
+    perKmFare: fareDetails.perKmFare,
+    peakMultiplier: fareDetails.peakMultiplier,
+    isPeakTime: fareDetails.isPeakTime
   }
-}
+});
+
+// Update QR code with actual ticket ID
+ticket.qrCode = `TICKET_ID:${ticket._id}`;
+await ticket.save();
+
+// Return success response
+return res.status(201).json({
+  success: true,
+  message: "Ticket booked successfully",
+  ticket: {
+    id: ticket._id,
+    from: ticket.from,
+    to: ticket.to,
+    journeyType: ticket.journeyType,
+    distance: ticket.distance,
+    fare: ticket.fare,
+    expiresAt: ticket.expiresAt,
+    qrCode: ticket.qrCode,
+    status: ticket.status
+  },
+  fareBreakdown: {
+    baseFare: fareDetails.baseFare,
+    perKmFare: fareDetails.perKmFare,
+    distance: fareDetails.distance,
+    peakMultiplier: fareDetails.peakMultiplier,
+    subtotal: fareDetails.subtotal,
+    total: fareDetails.total,
+    isPeakTime: fareDetails.isPeakTime
+  }
+});
+  }
+
+ catch (error) {
+    console.error('Ticket booking error:', error);
+    return res.status(500).json({ 
+      success: false,
+      error: error.message,
+      message: "Server error occurred while booking ticket" 
+    });
+  }
+};

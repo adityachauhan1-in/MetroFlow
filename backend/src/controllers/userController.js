@@ -72,7 +72,7 @@ export const login = async(req,res) => {
     res.json({token})
 } 
 catch (error) { 
-return res.status(500).json({error : err.message})    
+return res.status(500).json({error : error.message})    
 }
 }
 
