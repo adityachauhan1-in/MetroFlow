@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { Card, CardContent } from "../components/ui/Card";
 import Button from "../components/ui/Button";
+import Alert from "../components/ui/Alert";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import { scanTicket } from "../api/services";
 import { useNavigate } from "react-router-dom";
@@ -50,14 +51,14 @@ export default function AdminDashboard() {
       <div className="space-y-6">
         <Card>
           <CardContent className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-700 text-lg font-semibold text-white">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-800 text-lg font-bold text-white shadow-md">
               {user?.name ? String(user.name).trim().charAt(0).toUpperCase() : "A"}
             </div>
             <div>
               <p className="text-lg font-medium text-slate-900">
                 Hello, {user?.name || "Admin"}
               </p>
-              <p className="text-sm text-slate-500">Scan tickets at the gate</p>
+              <p className="text-sm text-slate-500">Ticket scan at gate</p>
             </div>
           </CardContent>
         </Card>
@@ -87,9 +88,9 @@ export default function AdminDashboard() {
                 />
               </div>
               {error && (
-                <p className="text-sm text-red-600" role="alert">
+                <Alert variant="error" onDismiss={() => setError("")} className="mb-4">
                   {error}
-                </p>
+                </Alert>
               )}
               <div className="flex gap-3">
                 <Button type="submit" disabled={loading}>

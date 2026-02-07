@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "../components/ui/Card";
 import Button from "../components/ui/Button";
+import Alert from "../components/ui/Alert";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import { calculateFare, getStations } from "../api/services";
 import { IndianRupee } from "lucide-react";
@@ -75,12 +76,9 @@ export default function PreviewFare() {
             </p>
 
             {error && (
-              <div
-                className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
-                role="alert"
-              >
+              <Alert variant="error" onDismiss={() => setError("")} className="mb-4">
                 {error}
-              </div>
+              </Alert>
             )}
 
             <form onSubmit={handlePreview} className="grid gap-4 sm:grid-cols-2">

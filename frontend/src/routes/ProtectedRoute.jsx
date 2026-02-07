@@ -1,14 +1,14 @@
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { jwtDecode } from 'jwt-decode';
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { jwtDecode } from "jwt-decode";
+import LoadingScreen from "../components/ui/LoadingScreen";
 
 export default function ProtectedRoute({ allowedRoles, children }) {
-    const { token, isAuthenticated, loading } = useAuth();
+  const { token, isAuthenticated, loading } = useAuth();
 
-    // Show nothing while checking authentication
-    if (loading) {
-        return null;
-    }
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
     // If not authenticated, redirect to login
     if (!isAuthenticated || !token) {

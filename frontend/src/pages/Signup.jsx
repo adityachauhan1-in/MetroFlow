@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../context/AuthContext";
 import api from "../api/axios";
+import Alert from "../components/ui/Alert";
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -49,12 +49,12 @@ export default function SignUp() {
         <div className="auth-page">
             <div className="auth-card">
                 <h1 className="auth-title">Create account</h1>
-                <p className="auth-subtitle">Join MetroFlow to get started</p>
+                <p className="auth-subtitle">Join MetroFlow — book metro tickets and travel smart</p>
 
                 {error && (
-                    <div className="auth-error" role="alert">
+                    <Alert variant="error" onDismiss={() => setError("")}>
                         {error}
-                    </div>
+                    </Alert>
                 )}
 
                 <form onSubmit={handleSubmit} className="auth-form">
@@ -93,6 +93,7 @@ export default function SignUp() {
                         minLength={6}
                     />
                     <button type="submit" disabled={loading} className="auth-button">
+                        {loading && <span className="loading-spinner" />}
                         {loading ? "Creating account…" : "Sign up"}
                     </button>
                 </form>

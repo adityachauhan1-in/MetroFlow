@@ -3,6 +3,7 @@ import React from "react";
 
 import { Card, CardContent } from "../components/ui/Card";
 import Button from "../components/ui/Button";
+import Alert from "../components/ui/Alert";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import { bookTicket, getStations } from "../api/services";
 import { QRCodeSVG } from "qrcode.react";
@@ -56,19 +57,9 @@ export default function BookTicket() {
     <DashboardLayout title="Book Ticket" backHref="/user" backLabel="Dashboard">
       <div className="space-y-6">
         {error && (
-          <div
-            className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
-            role="alert"
-          >
+          <Alert variant="error" onDismiss={clearError}>
             {error}
-            <button
-              type="button"
-              onClick={clearError}
-              className="ml-2 font-medium underline"
-            >
-              Dismiss
-            </button>
-          </div>
+          </Alert>
         )}
 
         {!booked ? (

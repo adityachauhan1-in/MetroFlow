@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent } from "../components/ui/Card";
 import Button from "../components/ui/Button";
+import Alert from "../components/ui/Alert";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import { submitFeedback } from "../api/services";
 import { MessageSquare } from "lucide-react";
@@ -63,20 +64,14 @@ export default function UserFeedback() {
             </p>
 
             {error && (
-              <div
-                className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
-                role="alert"
-              >
+              <Alert variant="error" onDismiss={() => setError("")} className="mb-4">
                 {error}
-              </div>
+              </Alert>
             )}
             {success && (
-              <div
-                className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800"
-                role="alert"
-              >
+              <Alert variant="success" className="mb-4">
                 Feedback submitted successfully. Thank you!
-              </div>
+              </Alert>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-4">

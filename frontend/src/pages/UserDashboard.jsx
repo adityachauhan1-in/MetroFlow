@@ -10,18 +10,18 @@ export default function UserDashboard() {
   const navigate = useNavigate();
  const {user} = useAuth();
   return (
-    <DashboardLayout title="Metrio">
+    <DashboardLayout title="MetroFlow">
       <div className="space-y-6">
         <Card className="rounded-2xl shadow-sm">
           <CardContent className="flex items-center gap-4 p-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-700 text-lg font-semibold text-white">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-slate-800 text-lg font-bold text-white shadow-md">
               {user?.name ? String(user.name).trim().charAt(0).toUpperCase() : "U"}
             </div>
             <div>
               <p className="text-lg font-medium text-slate-900">
                 Hello, {user?.name || "User"}
               </p>
-              <p className="text-sm text-slate-500">Book tickets and view your history</p>
+              <p className="text-sm text-slate-500">Your metro trips and tickets in one place</p>
             </div>
           </CardContent>
         </Card>

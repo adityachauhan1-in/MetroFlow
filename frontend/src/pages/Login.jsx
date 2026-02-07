@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
+import Alert from "../components/ui/Alert";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -56,13 +56,13 @@ export default function Login() {
             <div className="auth-card">
                 <h1 className="auth-title">Log in</h1>
                 <p className="auth-subtitle">
-                    {fromSignup ? "Account created. Sign in to continue." : "Sign in to your MetroFlow account"}
+                    {fromSignup ? "Account created. Sign in to continue." : "Sign in to MetroFlow — book metro tickets in seconds"}
                 </p>
 
                 {error && (
-                    <div className="auth-error" role="alert">
+                    <Alert variant="error" onDismiss={() => setError("")}>
                         {error}
-                    </div>
+                    </Alert>
                 )}
 
                 <form onSubmit={handleLogin} className="auth-form">
@@ -89,6 +89,7 @@ export default function Login() {
                         autoComplete="current-password"
                     />
                     <button type="submit" disabled={loading} className="auth-button">
+                        {loading && <span className="loading-spinner" />}
                         {loading ? "Signing in…" : "Log in"}
                     </button>
                 </form>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "../components/ui/Card";
 import Button from "../components/ui/Button";
+import Alert from "../components/ui/Alert";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import { getFeedback, reviewFeedback } from "../api/services";
 import { MessageSquare, User, Mail, Calendar, Send } from "lucide-react";
@@ -83,15 +84,9 @@ export default function AdminFeedback() {
         </Card>
 
         {error && (
-          <div
-            className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
-            role="alert"
-          >
+          <Alert variant="error" onDismiss={() => setError("")}>
             {error}
-            <button type="button" onClick={() => setError("")} className="ml-2 underline">
-              Dismiss
-            </button>
-          </div>
+          </Alert>
         )}
 
         {loading ? (

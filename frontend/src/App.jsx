@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
+import LoadingScreen from "./components/ui/LoadingScreen";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -16,6 +18,10 @@ import AdminFareConfig from "./pages/AdminFareConfig";
 import NotFound from "./pages/NotFound";
 
 export const App = () => {
+  const { loading } = useAuth();
+
+  if (loading) return <LoadingScreen />;
+
   return (
     <BrowserRouter>
       <Routes>
