@@ -1,13 +1,12 @@
 import React from "react";
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import Alert from "../components/ui/Alert";
 import DashboardLayout from "../components/layout/DashboardLayout";
-import { scanTicket } from "../api/services";
+import { scanTicket, getTicketStats } from "../api/services";
 import { useNavigate } from "react-router-dom";
-import { QrCode, CheckCircle2, XCircle, MessageSquare, MapPin, IndianRupee } from "lucide-react";
+import { QrCode, CheckCircle2, XCircle, MessageSquare, MapPin, IndianRupee, Ticket, TrendingUp, Clock, Calendar } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 export default function AdminDashboard() {
@@ -17,6 +16,23 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
+  const [ticketStats, setTicketStats] = useState(null);
+  const [statsLoading, setStatsLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await getTicketStats();
+        if (!cancelled && res?.success && res?.data) setTicketStats(res.data);
+      } catch {
+        if (!cancelled) setTicketStats(null);
+      } finally {
+        if (!cancelled) setStatsLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   const handleScan = async (e) => {
     e?.preventDefault();
@@ -62,6 +78,82 @@ export default function AdminDashboard() {
             </div>
           </CardContent>
         </Card>
+
+        {statsLoading ? (
+          <Card>
+            <CardContent className="py-8 text-center text-slate-500">
+              Loading ticket stats…
+            </CardContent>
+          </Card>
+        ) : ticketStats && (
+          <Card>
+            <CardContent>
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold">
+                <Ticket size={22} /> Ticket statistics
+              </h2>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="flex items-center gap-3 rounded-lg border border-slate-200 bg-slate-50/50 p-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-200">
+                    <Ticket className="h-5 w-5 text-slate-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-slate-900">{ticketStats.totalTickets ?? 0}</p>
+                    <p className="text-sm text-slate-500">Total tickets</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 rounded-lg border border-emerald-200 bg-emerald-50/50 p-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-200">
+                    <TrendingUp className="h-5 w-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-emerald-800">{ticketStats.activeTickets ?? 0}</p>
+                    <p className="text-sm text-slate-500">Active</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 rounded-lg border border-blue-200 bg-blue-50/50 p-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-200">
+                    <CheckCircle2 className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-blue-800">{ticketStats.usedTickets ?? 0}</p>
+                    <p className="text-sm text-slate-500">Used</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50/50 p-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-200">
+                    <Clock className="h-5 w-5 text-amber-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-amber-800">{ticketStats.expiredTickets ?? 0}</p>
+                    <p className="text-sm text-slate-500">Expired</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 rounded-lg border border-violet-200 bg-violet-50/50 p-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-violet-200">
+                    <Calendar className="h-5 w-5 text-violet-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-violet-800">{ticketStats.todayTickets ?? 0}</p>
+                    <p className="text-sm text-slate-500">Today</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 rounded-lg border border-emerald-200 bg-emerald-50/50 p-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-200">
+                    <IndianRupee className="h-5 w-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-emerald-800">
+                      {typeof ticketStats.totalRevenue === "number"
+                        ? `₹${ticketStats.totalRevenue.toLocaleString()}`
+                        : "₹0"}
+                    </p>
+                    <p className="text-sm text-slate-500">Total revenue</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <Card>
           <CardContent>

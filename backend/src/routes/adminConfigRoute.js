@@ -22,14 +22,14 @@ router.use(authMiddleware, adminMiddleware);
 // Fare configuration management
 router.post("/fare-config", setFareConfig);
 router.get("/fare-config", getActiveFareConfig);
-
+    
 // Station management
 router.get("/stations", listStations);
 router.post("/stations", createStation);
 router.put("/stations/:id", updateStation);
 
 // Dashboard stats
-// we didn't use this (for future  version )
+// the time has been come 
 router.get("/dashboard/tickets", getTicketStats);
 
 export default router;

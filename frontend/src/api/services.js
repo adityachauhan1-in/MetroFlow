@@ -74,3 +74,9 @@ export async function setFareConfig(body) {
   const { data } = await api.post("/admin/fare-config", body);
   return data;
 }
+
+// for ticket stats
+export async function getTicketStats() {
+  const {data} = await api.get("/admin/dashboard/tickets")
+  return data
+} 

@@ -2,6 +2,8 @@ import express from 'express'
 import TicketModel from '../models/TicketModel.js'
 import StationModel from '../models/StationModel.js'
 import { multiFare } from '../utils/fareCalculator.js';
+import UserModel from '../models/UserModel.js';
+import { sendEmail } from '../utils/sendEmail.js';
 export const ticketBooking = async(req,res) => {
   try {
       //  ===1 >> extract from , to and journeyType from the req.body 
@@ -49,6 +51,19 @@ export const ticketBooking = async(req,res) => {
        const fareDetails =  await multiFare(fromStation,toStation,journeyType)
   // set Expiry time of the ticket(90 minute)
   const expiresAt  = new Date(Date.now() + 90 * 60 * 1000);
+  // For emailing the user
+  console.log("Here is the Email error occur")
+
+  const userDoc  = await UserModel.findById(req.user.id).select("email");
+  if (!userDoc || !userDoc.email) {
+    return res.status(404).json({ message: "User not found" });
+  }
+  // Send email using the user's email from DB
+  await sendEmail(userDoc.email, {
+    from,
+    to,
+    fare: fareDetails.total,
+  });
 
 // Save ticket with temporary QR code
 const ticket = await TicketModel.create({
@@ -97,6 +112,8 @@ return res.status(201).json({
     isPeakTime: fareDetails.isPeakTime
   }
 });
+// for email to the user 
+
   }
 
  catch (error) {
