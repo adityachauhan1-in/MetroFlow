@@ -40,7 +40,7 @@ export const sendEmail = async (userEmail, ticketData) => {
         <h2><strong>Fare:</strong> ₹${ticketData.fare}</h2>
         <h2><strong>TicketId:</strong> ${ticketData.ticketId}</h2>
         <h2><strong>Date:</strong> ${new Date().toLocaleString()}</h2>
-        <h4><strong>Valid only till </strong> ${ticketData.expiresAt}</h4>
+        <h4><strong>Valid only till : </strong> ${ticketData.expiresAt}</h4>
         <br/>
         <h1>Thank you for booking with MetroFlow 🚇</h1>
       `,

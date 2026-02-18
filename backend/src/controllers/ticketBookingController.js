@@ -63,6 +63,7 @@ export const ticketBooking = async(req,res) => {
         fare: fareDetails.total,
         expiresAt,
         qrCode: `TICKET_ID:TEMP_${Date.now()}`,
+        // qrCode: `${Date.now()}`,
         fareDetails: {
           baseFare: fareDetails.baseFare,
           perKmFare: fareDetails.perKmFare,
@@ -72,7 +73,8 @@ export const ticketBooking = async(req,res) => {
       });
 
       // Update QR code with actual ticket ID
-      ticket.qrCode = `TICKET_ID:${ticket._id}`;
+      // ticket.qrCode = `TICKET_ID:${ticket._id}`;
+      ticket.qrCode = `${ticket._id}`;
       await ticket.save();
       // For emailing the user
       const userDoc = await UserModel.findById(req.user.id).select("email");
