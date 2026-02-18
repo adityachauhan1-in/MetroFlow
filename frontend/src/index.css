@@ -197,16 +197,10 @@ body {
   align-items: center;
   justify-content: center;
   background:
-    linear-gradient(rgba(240, 249, 255, 0.92), rgba(240, 249, 255, 0.92)),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0,
-      transparent 80px,
-      rgba(14, 165, 233, 0.04) 80px,
-      rgba(14, 165, 233, 0.04) 81px
-    ),
-    linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%);
-  background-size: 100% 100%, 200% 100%, 100% 100%;
+    radial-gradient(ellipse at top, rgba(56, 189, 248, 0.35), transparent 60%),
+    radial-gradient(ellipse at bottom, rgba(45, 212, 191, 0.35), transparent 55%),
+    linear-gradient(180deg, #e0f2fe 0%, #f9fafb 45%, #ecfeff 100%);
+  background-size: 140% 80%, 160% 80%, 100% 100%;
   padding: 1.5rem;
   position: relative;
   overflow: hidden;
@@ -224,14 +218,14 @@ body {
 .auth-card {
   width: 100%;
   max-width: 440px;
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(12px);
-  border: 2px solid rgba(14, 165, 233, 0.15);
+  background: #ffffff;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(203, 213, 225, 0.9);
   border-radius: 16px;
   padding: 2.5rem 2rem;
   box-shadow:
-    0 20px 50px rgba(6, 105, 161, 0.12),
-    0 4px 12px rgba(0, 0, 0, 0.06);
+    0 24px 70px rgba(15, 23, 42, 0.75),
+    0 0 0 1px rgba(15, 23, 42, 0.8);
   position: relative;
   z-index: 1;
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
@@ -252,7 +246,7 @@ body {
 .auth-title {
   font-size: 1.875rem;
   font-weight: 800;
-  color: var(--metro-accent);
+  color: #0f172a;
   margin: 0 0 0.5rem 0;
   letter-spacing: -0.5px;
 }
@@ -274,7 +268,7 @@ body {
   display: block;
   font-size: 1rem;
   font-weight: 600;
-  color: #334155;
+  color: #0f172a;
   margin-bottom: 0.5rem;
 }
 
@@ -283,8 +277,8 @@ body {
   padding: 1rem 1.25rem;
   font-size: 1rem;
   color: #0f172a;
-  background: #fff;
-  border: 2px solid #e2e8f0;
+  background: #f8fafc;
+  border: 1px solid #cbd5f5;
   border-radius: 10px;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -292,12 +286,12 @@ body {
 }
 
 .auth-input:hover {
-  border-color: #cbd5e1;
+  border-color: #38bdf8;
 }
 
 .auth-input:focus {
-  border-color: var(--metro-primary);
-  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.8);
 }
 
 .auth-button {
@@ -306,8 +300,8 @@ body {
   font-size: 1.0625rem;
   font-weight: 700;
   color: white;
-  background: #334155;
-  border: 2px solid #334155;
+  background: linear-gradient(135deg, #0ea5e9, #22c55e);
+  border: 0;
   border-radius: 10px;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
@@ -317,15 +311,14 @@ body {
 }
 
 .auth-button:hover:not(:disabled) {
-  background: #1e293b;
-  border-color: #1e293b;
+  background: linear-gradient(135deg, #0284c7, #16a34a);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(30, 41, 59, 0.35);
 }
 
 .auth-button:disabled {
-  background: #94a3b8;
-  border-color: #94a3b8;
+  background: rgba(148, 163, 184, 0.85);
+  border-color: transparent;
   cursor: not-allowed;
   transform: none;
 }
@@ -333,14 +326,14 @@ body {
 .auth-footer {
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid rgba(203, 213, 225, 0.9);
   font-size: 1rem;
-  color: #64748b;
+  color: #6b7280;
   text-align: center;
 }
 
 .auth-link {
-  color: var(--metro-dark);
+  color: #0ea5e9;
   font-weight: 700;
   text-decoration: none;
   margin-left: 0.35rem;
@@ -348,7 +341,7 @@ body {
 }
 
 .auth-link:hover {
-  color: var(--metro-primary);
+  color: #0369a1;
 }
 
 .loading-spinner {
@@ -567,14 +560,21 @@ body {
 
 /* ========== Dashboard layout (metro-themed) ========== */
 .metro-dashboard-bg {
-  background: linear-gradient(180deg, #f8fafc 0%, #f0f9ff 100%);
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.35), transparent 60%),
+    radial-gradient(circle at bottom right, rgba(45, 212, 191, 0.28), transparent 55%),
+    linear-gradient(180deg, #e5f3ff 0%, #f9fafb 100%);
   min-height: 100vh;
 }
 
+.metro-dashboard-main {
+  animation: metro-fade-in 0.3s ease-out;
+}
+
 .metro-dashboard-header {
-  background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%);
-  border-bottom: 3px solid var(--metro-primary);
-  box-shadow: 0 4px 20px rgba(6, 105, 161, 0.2);
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 40%, #22c55e 100%);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.7);
+  box-shadow: 0 10px 35px rgba(59, 130, 246, 0.4);
 }
 
 .metro-dashboard-header .text-xl {
@@ -663,7 +663,9 @@ body {
   justify-content: center;
   padding: 2rem;
   position: relative;
-  background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 100%);
+  background:
+    radial-gradient(circle at top, rgba(56, 189, 248, 0.3), transparent 60%),
+    linear-gradient(180deg, #e0f2fe 0%, #f9fafb 100%);
   overflow: hidden;
 }
 
@@ -696,7 +698,7 @@ body {
 .metro-notfound-title {
   font-size: 1.875rem;
   font-weight: 800;
-  color: var(--metro-accent);
+  color: #0f172a;
   margin: 0 0 0.75rem 0;
 }
 
@@ -726,4 +728,15 @@ body {
   background: #1e293b;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(30, 41, 59, 0.35);
+}
+
+@keyframes metro-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
