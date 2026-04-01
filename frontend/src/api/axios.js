@@ -2,8 +2,9 @@
 import axios from 'axios';
 // Creates a custom axios client
 const api = axios.create({
-    baseURL:  "https://metroflow-kjnk.onrender.com" || "http://localhost:5000",
-    // baseURL:"http://localhost:5000/",
+    baseURL:
+        import.meta.env.VITE_API_URL ||
+        (import.meta.env.DEV ? "http://localhost:5000" : "https://metroflow-kjnk.onrender.com"),
     headers:{
         "Content-Type":"application/json",
     },

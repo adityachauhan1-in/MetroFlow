@@ -11,7 +11,6 @@ export const autoExpireTicket = async () => {
       console.log(`Expired ${result.modifiedCount} old ticket`)
       return result
     } catch (error) {
-        return res.status(500).json({error : error.message})  
-        console.error(error)
+        console.error("Ticket expiration cleanup failed:", error);
     }
 }

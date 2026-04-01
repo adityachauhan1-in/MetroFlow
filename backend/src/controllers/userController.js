@@ -78,8 +78,6 @@ export const login = async(req,res) => {
     res.json({ token, user: userPayload });
 } 
 catch (error) { 
-  console.log(`see this is mongo uri : ${process.env.MONGO_URI}`)
-
 return res.status(500).json({error : error.message})    
 }
 }

@@ -59,15 +59,10 @@ app.use("/admin", adminFeedbackRoute);
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "../../frontend/dist/index.html"));
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
 });
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`see this is mongo uri : ${process.env.MONGO_URI}`)
-
   console.log(` HII Server running on port ${PORT}`);
-
-
-
 });

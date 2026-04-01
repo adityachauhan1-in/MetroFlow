@@ -46,7 +46,7 @@ export const ticketBooking = async(req,res) => {
       if(!fromStation || !toStation){
         return res.status(400).json({message : "Invalid Station Selected"})
       }
- console.log("Be  a smart boy ")
+
       // Use reusable function (calculateFare)
       const fareDetails = await multiFare(fromStation, toStation, journeyType);
 
@@ -119,7 +119,6 @@ export const ticketBooking = async(req,res) => {
 
   } catch (error) {
     console.error('Ticket booking error:', error);
-    console.log("hii this is the error cause -----> 🔴<----")
     return res.status(500).json({ 
       success: false,
       error: error.message,

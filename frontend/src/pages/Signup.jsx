@@ -38,7 +38,6 @@ export default function SignUp() {
                 setLoading(false);
             }
         } catch (err) {
-            console.log(api)
             const msg = err.response?.data?.message ?? err.response?.data?.err ?? "Sign up failed. Try again.";
             setError(msg);
         } finally {
