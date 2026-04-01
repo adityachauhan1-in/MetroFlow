@@ -56,7 +56,7 @@ app.use("/admin", qrScanRoute);
 app.use("/admin", adminConfigRoute);
 app.use("/admin", adminFeedbackRoute);
 
-app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, "dist", "../../frontend/dist/index.html"));
