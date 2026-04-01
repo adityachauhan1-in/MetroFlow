@@ -135,7 +135,7 @@ export default function BookTicket() {
           <Card>
             <CardContent className="space-y-4">
               <h2 className="text-lg font-semibold text-green-800">
-                Ticket booked successfully
+                Ticket booked successfully now enjoy your journey
               </h2>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="rounded-lg bg-slate-50 p-4">

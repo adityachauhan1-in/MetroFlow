@@ -48,6 +48,7 @@ export const login = async(req,res) => {
 
     const {email , password} = req.body;
     // basic check 
+
     if(!email || !password){
         return res.status(400).json({message : "Email or password required"});
     }
@@ -77,6 +78,8 @@ export const login = async(req,res) => {
     res.json({ token, user: userPayload });
 } 
 catch (error) { 
+  console.log(`see this is mongo uri : ${process.env.MONGO_URI}`)
+
 return res.status(500).json({error : error.message})    
 }
 }
