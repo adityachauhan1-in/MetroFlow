@@ -13,6 +13,7 @@ import { autoExpireTicket } from "./utils/ticketCleanup.js";
 import qrScanRoute from "./routes/qrScanRoute.js";
 import userFeedbackRoute from "./routes/userFeedbackRoute.js";
 import adminFeedbackRoute from "./routes/adminFeedbackRoute.js";
+// import { AuthProvider } from "../../frontend/src/context/AuthContext.jsx";
 import path from "path"
 import { fileURLToPath } from "url";
 dotenv.config();//mongodb connection 
@@ -55,10 +56,10 @@ app.use("/admin", qrScanRoute);
 app.use("/admin", adminConfigRoute);
 app.use("/admin", adminFeedbackRoute);
 
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "dist")));
 
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, "dist", "../../frontend/dist/index.html"));
 });
 const PORT = process.env.PORT || 5000;
 
