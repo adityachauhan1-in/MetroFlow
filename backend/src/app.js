@@ -55,5 +55,10 @@ app.listen(PORT, () => {
   console.log(`see this is mongo uri : ${process.env.MONGO_URI}`)
 
   console.log(` HII Server running on port ${PORT}`);
+  app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 });
