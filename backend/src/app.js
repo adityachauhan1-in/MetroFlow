@@ -13,9 +13,14 @@ import { autoExpireTicket } from "./utils/ticketCleanup.js";
 import qrScanRoute from "./routes/qrScanRoute.js";
 import userFeedbackRoute from "./routes/userFeedbackRoute.js";
 import adminFeedbackRoute from "./routes/adminFeedbackRoute.js";
+import path from "path"
+import { fileURLToPath } from "url";
 dotenv.config();//mongodb connection 
 
 const app = express();
+const __fileName = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__fileName)
+// middleware
 app.use(cors())
 app.use(express.json()) 
 
@@ -49,16 +54,19 @@ app.use("/role",adminRoute);
 app.use("/admin", qrScanRoute);
 app.use("/admin", adminConfigRoute);
 app.use("/admin", adminFeedbackRoute);
+
+app.use(express.static(path.join(__dirname, "build")));
+
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`see this is mongo uri : ${process.env.MONGO_URI}`)
 
   console.log(` HII Server running on port ${PORT}`);
-  app.use(express.static(path.join(__dirname, "build")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
+
 
 });
