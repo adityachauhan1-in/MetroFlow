@@ -13,7 +13,6 @@ import { autoExpireTicket } from "./utils/ticketCleanup.js";
 import qrScanRoute from "./routes/qrScanRoute.js";
 import userFeedbackRoute from "./routes/userFeedbackRoute.js";
 import adminFeedbackRoute from "./routes/adminFeedbackRoute.js";
-// import { AuthProvider } from "../../frontend/src/context/AuthContext.jsx";
 import path from "path"
 import { fileURLToPath } from "url";
 dotenv.config();//mongodb connection 
@@ -31,9 +30,6 @@ mongoose
 .then(() => console.log("MongoDB Connected"))
 .catch((err) => console.log(err))
 
-app.get("/" , (req,res) => {
-    res.send("Meerut Metro API  is running ,  local development area  ")
-})
 // after every 10 minute ticket is check Active or mark it expire if time gone . and not used 
 // Schedule cleanup every 10 minutes using setInterval
 const CLEANUP_INTERVAL = 10 * 60 * 1000; 
@@ -46,20 +42,37 @@ setInterval(() => {
 console.log('Running initial ticket cleanup...');
 autoExpireTicket();
 
- app.use("/calculate",fareRoute);
- app.use("/",protectedRoute); // gatekeeper 
-app.use("/ticket", ticketRoute);
-app.use("/user", userRoutes);
-app.use("/user", userFeedbackRoute);
-app.use("/role",adminRoute);
-app.use("/admin", qrScanRoute);
-app.use("/admin", adminConfigRoute);
-app.use("/admin", adminFeedbackRoute);
+// --- API: all REST routes under /api so they never clash with React Router (/user, /admin, …) ---
+const api = express.Router();
+api.use("/calculate", fareRoute);
+api.use("/", protectedRoute); // GET /api/protected
+api.use("/ticket", ticketRoute);
+api.use("/user", userRoutes);
+api.use("/user", userFeedbackRoute);
+api.use("/role", adminRoute);
+api.use("/admin", qrScanRoute);
+api.use("/admin", adminConfigRoute);
+api.use("/admin", adminFeedbackRoute);
+api.use((req, res) => {
+  res.status(404).json({ message: "API route not found" });
+});
 
+app.get("/api/health", (req, res) => {
+  res.type("text").send("Meerut Metro API is running");
+});
+app.use("/api", api);
+
+// --- SPA: static assets, then index.html for client-side routes (refresh / deep links) ---
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
-app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+// SPA fallback: avoid app.get("*") / "/*" — Express 5 path-to-regexp rejects * or only matches one segment
+app.use((req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    return next();
+  }
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"), (err) => {
+    if (err) next(err);
+  });
 });
 const PORT = process.env.PORT || 5000;
 

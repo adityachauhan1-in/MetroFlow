@@ -1,10 +1,13 @@
 // backend connect with the frontend 
 import axios from 'axios';
 // Creates a custom axios client
+// API lives under /api on the server so paths like /user (SPA) never collide with /api/user (REST).
 const api = axios.create({
     baseURL:
         import.meta.env.VITE_API_URL ||
-        (import.meta.env.DEV ? "http://localhost:5000" : "https://metroflow-kjnk.onrender.com"),
+        (import.meta.env.DEV
+            ? "http://localhost:5000/api"
+            : "/api"),
     headers:{
         "Content-Type":"application/json",
     },
