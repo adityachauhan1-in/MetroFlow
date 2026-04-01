@@ -66,14 +66,14 @@ app.use("/api", api);
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 // SPA fallback: avoid app.get("*") / "/*" — Express 5 path-to-regexp rejects * or only matches one segment
-app.use((req, res, next) => {
-  if (req.method !== "GET" && req.method !== "HEAD") {
-    return next();
-  }
-  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"), (err) => {
-    if (err) next(err);
-  });
-});
+// app.use((req, res, next) => {
+//   if (req.method !== "GET" && req.method !== "HEAD") {
+//     return next();
+//   }
+//   res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"), (err) => {
+//     if (err) next(err);
+//   });
+// });
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
