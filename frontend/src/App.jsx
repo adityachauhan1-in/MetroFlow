@@ -25,7 +25,7 @@ export const App = () => {
 
   return (
     <BrowserRouter>
-      <Suspense fallback={<LoadingScreen />}>
+      <Suspense fallback={<LoadingScreen/>}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -37,7 +37,7 @@ export const App = () => {
               <ProtectedRoute allowedRoles={["user"]}>
                 <UserDashboard />
               </ProtectedRoute>
-            }
+            }  
           />
           <Route
             path="/user/book"
