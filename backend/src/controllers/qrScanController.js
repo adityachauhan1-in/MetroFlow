@@ -9,7 +9,7 @@ export const scanTicket = async (req,res) => {
     if(!ticketId){
         return res.status(400).json({message : "Ticket Id is required"});
     }
-
+ 
     // Allow QR codes that embed the ticket id as "TICKET_ID:<id>"
     if (typeof ticketId === "string" && ticketId.startsWith("TICKET_ID:")) {
       ticketId = ticketId.split("TICKET_ID:")[1];

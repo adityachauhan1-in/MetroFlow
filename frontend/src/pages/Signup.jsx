@@ -13,7 +13,6 @@ export default function SignUp() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const [password, setPassword] = useState("");
 
     // Only clear expired tokens, don't redirect automatically
     // Allow users to access signup page even when logged in (to create new account)
@@ -83,17 +82,18 @@ export default function SignUp() {
                         className="auth-input"
                         autoComplete="email"
                     />
-                    <label htmlFor="login-password" className="auth-label">Password</label>
+                    <label htmlFor="signup-password" className="auth-label">Password</label>
 <div className="relative">
     <input
-        id="login-password"
+        id="signup-password"
         type={showPassword ? "text" : "password"}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
         required
         placeholder="••••••••"
         className="auth-input"
-        autoComplete="current-password"
+        autoComplete="new-password"
     />
     <span
         className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-indigo-600 transition"

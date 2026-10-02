@@ -84,7 +84,7 @@ function Avatar({ name }) {
       </div>
                   <div className="px-2 py-1">
                     <Button
-                      variant="outline"gj
+                      variant="outline"
                       className="w-full justify-center gap-2 border-slate-300 text-slate-700 hover:bg-slate-50"
                       onClick={handleLogout}
                     >

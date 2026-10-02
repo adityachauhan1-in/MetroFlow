@@ -25,7 +25,7 @@ mongoose
 .catch((err) => console.log(err))
 
 app.get("/" , (req,res) => {
-    res.send("Meerut Metro API  is running ,  Alright You're booming man  ")
+  res.send("Meerut Metro API(Backend)  is running , Backend is working perfectly on port 5000  ")
 })
 // after every 10 minute ticket is check Active or mark it expire if time gone . and not used 
 // Schedule cleanup every 10 minutes using setInterval
