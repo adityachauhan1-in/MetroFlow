@@ -2,6 +2,7 @@
 import axios from 'axios';
    // Creates a custom axios client
 const api = axios.create({
+     // Always active while dealing with these URL's
     baseURL:  "https://metroflow-kjnk.onrender.com" || "http://localhost:5000",
     // baseURL:"http://localhost:5000", 
     headers:{
